@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDDBank", "TDDBank\TDDBank.csproj", "{98F618A4-14EB-4948-BF88-FD9D4359CB95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankTests", "BankTests\BankTests.csproj", "{D3B7A57C-7137-4566-BC5E-7855BE14A0CE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{98F618A4-14EB-4948-BF88-FD9D4359CB95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98F618A4-14EB-4948-BF88-FD9D4359CB95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98F618A4-14EB-4948-BF88-FD9D4359CB95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98F618A4-14EB-4948-BF88-FD9D4359CB95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3B7A57C-7137-4566-BC5E-7855BE14A0CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3B7A57C-7137-4566-BC5E-7855BE14A0CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3B7A57C-7137-4566-BC5E-7855BE14A0CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3B7A57C-7137-4566-BC5E-7855BE14A0CE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
