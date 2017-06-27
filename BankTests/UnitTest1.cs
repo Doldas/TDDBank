@@ -305,8 +305,8 @@ namespace BankTests
         public void Transaction_Take_100_Money_From_Account_Give_It_To_Another_User_Account() {
             //Arrange
             BankStorage accounts = new BankStorage();
-            Account account = new Account { AccountID = 2, ClearingNumber = "NNNN-NNNN-NNNN-5555", User = new User { FullName = "Kalle Anka2", UserID = 2, Contact = "mail@email.com", Accounts = new List<Account>() }, User_ID = 2, Balance = 300 };
-            Account account2 = new Account { AccountID = 3, ClearingNumber = "NNNN-NNNN-NNNN-4444", User = new User { FullName = "Farbror Joakim Von Anka", UserID = 3, Contact = "mail@email.com", Accounts = new List<Account>() }, User_ID = 3, Balance = 0 };
+            Account account = new Account { AccountID = 2, ClearingNumber = "NNNN-NNNN-NNNN-5555", User = new User { FullName = "Kalle Anka2", UserID = 2, Contact = "mail@email.com", Accounts = new List<Account>() }, User_ID = 2, Balance = 300, Transactions=new List<Transaction>() };
+            Account account2 = new Account { AccountID = 3, ClearingNumber = "NNNN-NNNN-NNNN-4444", User = new User { FullName = "Farbror Joakim Von Anka", UserID = 3, Contact = "mail@email.com", Accounts = new List<Account>() }, User_ID = 3, Balance = 0 , Transactions=new List<Transaction>()};
             accounts.Add(account);
             accounts.Add(account2);
             double ExpectedResultAccount1 = 200;
@@ -426,9 +426,9 @@ namespace BankTests
             User user = new User { FullName = "Gommash", Contact = "Test@Email.com", UserID = 1, Accounts = new List<Account>() };
             Account account = new Account { AccountID = 1, ClearingNumber = "GGGG-GGGG-GGGG-QQQ1", WithdrawLock = false, Balance = 345.78, User_ID = 1, User = user, Transactions = new List<Transaction>() };
 
-            Transaction transaction1 = new Transaction { TransactionID = 1, TransactionDate = DateTime.Now, Money = 25, Category = Category.Payment, Account = account, Account_ID = 1 };
-            Transaction transaction2 = new Transaction { TransactionID = 2, TransactionDate = DateTime.Now.AddMonths(-8), Money = 34.22, Category = Category.Payment, Account = account, Account_ID = 1 };
-            Transaction transaction3 = new Transaction { TransactionID = 3, TransactionDate = DateTime.Now.AddMonths(2), Money = 125, Category = Category.Added, Account = account, Account_ID = 1 };
+            Transaction transaction1 = new Transaction { ID=1, TransactionID = 1, TransactionDate = DateTime.Now, Money = 25, Category = Category.Payment, Account = account, Account_ID = 1 };
+            Transaction transaction2 = new Transaction {ID=2, TransactionID = 2, TransactionDate = DateTime.Now.AddMonths(-8), Money = 34.22, Category = Category.Payment, Account = account, Account_ID = 1 };
+            Transaction transaction3 = new Transaction {ID=3, TransactionID = 3, TransactionDate = DateTime.Now.AddMonths(2), Money = 125, Category = Category.Added, Account = account, Account_ID = 1 };
 
             account.Transactions.Add(transaction1);
             account.Transactions.Add(transaction2);
@@ -442,6 +442,29 @@ namespace BankTests
             //Assert
             Assert.AreEqual("Gommash", ActualResult.Account.User.FullName);
             Assert.AreEqual(transaction2, ActualResult);
+        }
+        [TestMethod]
+        public void Transaction_Take_100_Money_From_Account_Give_It_To_Another_User_Account_Results_Each_Account_Have_A_Transaction_History_Added()
+        {
+            //Arrange
+            BankStorage accounts = new BankStorage();
+            Account account = new Account { AccountID = 2, ClearingNumber = "NNNN-NNNN-NNNN-5555", User = new User { FullName = "Kalle Anka2", UserID = 2, Contact = "mail@email.com", Accounts = new List<Account>() }, User_ID = 2, Balance = 300, Transactions=new List<Transaction>() };
+            Account account2 = new Account { AccountID = 3, ClearingNumber = "NNNN-NNNN-NNNN-4444", User = new User { FullName = "Farbror Joakim Von Anka", UserID = 3, Contact = "mail@email.com", Accounts = new List<Account>() }, User_ID = 3, Balance = 0 , Transactions=new List<Transaction>()};
+            accounts.Add(account);
+            accounts.Add(account2);
+
+            int ExpectedResult=1;
+            int ExpectedResult2=2;
+            //Act
+            accounts.Transfer("NNNN-NNNN-NNNN-5555", "NNNN-NNNN-NNNN-4444", 100);
+            Transaction ActualResultAccount1 = accounts.GetTransaction(1);
+            Transaction ActualResultAccount2 = accounts.GetTransaction(2);
+            //Assert
+            Assert.AreEqual(ExpectedResult, ActualResultAccount1.ID);
+            Assert.AreEqual(Category.Payment,ActualResultAccount1.Category);
+
+            Assert.AreEqual(ExpectedResult2, ActualResultAccount2.ID);
+            Assert.AreEqual(Category.Added, ActualResultAccount2.Category);
         }
         #endregion
 

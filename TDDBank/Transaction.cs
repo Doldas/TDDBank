@@ -8,6 +8,7 @@ namespace TDDBank
 {
     public class Transaction
     {
+        public int ID { get; set; }
         public int TransactionID { get; set; }
         public DateTime TransactionDate { get; set; }
         public double Money { get; set; }

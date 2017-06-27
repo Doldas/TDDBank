@@ -59,11 +59,11 @@ namespace TDDBank
     {
         return Get(ClearingNumber).Transactions;
     }
-    public Transaction GetTransaction(int transactionID)
+    public Transaction GetTransaction(int id)
     {
         foreach(Account account in accounts)
         {
-            Transaction a = account.Transactions.Where(t=>t.TransactionID==transactionID).SingleOrDefault();
+            Transaction a = account.Transactions.Where(t=>t.ID==id).SingleOrDefault();
             if(a!=null)
             {
                 return a;
@@ -82,8 +82,22 @@ namespace TDDBank
             {
                 if (a.WithdrawLock != true && b.WithdrawLock != true)
                 {
+
+                    int TotalTransactions=0;
+                    foreach(Account ac in accounts)
+                    {
+                        TotalTransactions += ac.Transactions.Count;
+                    }
+                    
                     a.Balance -= amount;
+                    Transaction tA = new Transaction { ID=TotalTransactions+=1,TransactionID = a.Transactions.Count, Account = a, Account_ID = a.AccountID, Category = Category.Payment, Money = amount, Reciever = b, TransactionDate = DateTime.Now };
+                    a.Transactions.Add(tA);
+
                     b.Balance += amount;
+
+                    b.Transactions = new List<Transaction>();
+                    Transaction tB = new Transaction { ID = TotalTransactions += 1, TransactionID = a.Transactions.Count, Account = b, Account_ID = b.AccountID, Category = Category.Added, Money = amount, Reciever = a, TransactionDate = DateTime.Now };
+                    a.Transactions.Add(tB);
                 }
             }
         }
